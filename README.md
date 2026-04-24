@@ -369,13 +369,13 @@ sui client call `
   --module portfolio `
   --package 0xabc123youpackageid `
   --args `
-  "LADY DIANE CASILANG" `
+  "Sherwin Limosnero" `
   "BS in Information Technology" `
-  "FEU Institute of Technology" `
-  "I am a fourth-year IT student and freelance designer." `
-  "https://www.linkedin.com/in/ldcasilang/" `
-  "https://github.com/ldcasilang" `
-  "Graphic Design,UI/UX Design,Project Management,Full Stack Development,Web & App Development"
+  "UPHSL" `
+  "I am a third-year IT student and freelance game dev." `
+  "https://www.linkedin.com/in/sherwinlimosnero/" `
+  "https://github.com/owenlim225" `
+  "Graphic Design,UI/UX Design,Project Management, Game Development"
 ```
 
 After the command completes, scroll through the output and find the **Created Objects** section. Your **Object ID** is listed there:

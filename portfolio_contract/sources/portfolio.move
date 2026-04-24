@@ -5,7 +5,6 @@ module portfolio::portfolio {
     use sui::package;
     use sui::display;
     use std::string::{Self, String};
-    use std::vector;
 
     struct Portfolio has key, store {
         id: UID,
@@ -69,7 +68,7 @@ module portfolio::portfolio {
         github_url: String,
         skills: String,
         ctx: &mut TxContext
-    ) {
+    ): Portfolio {
         let portfolio = Portfolio {
             id: object::new(ctx),
             name,
@@ -80,6 +79,6 @@ module portfolio::portfolio {
             github_url,
             skills,
         };
-        transfer::transfer(portfolio, tx_context::sender(ctx));
+        portfolio
     }
 }

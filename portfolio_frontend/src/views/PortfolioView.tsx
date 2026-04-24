@@ -1,5 +1,5 @@
 import { useState, useEffect, useMemo } from "react"
-import { MAINNET_PORTFOLIO_ID } from "../constants"
+import { MAINNET_PORTFOLIO_ID, TESTNET_PORTFOLIO_ID } from "../constants"
 
 // ============================================================================
 // CUSTOM HOOK FOR DYNAMIC META TAGS
@@ -39,9 +39,9 @@ const useMetaTags = (metadata: {
       if (!element) {
         // Create element if it doesn't exist
         element = document.createElement('meta');
-        if ('property' in tag) {
+        if ('property' in tag && tag.property) {
           element.setAttribute('property', tag.property);
-        } else {
+        } else if ('name' in tag && tag.name) {
           element.setAttribute('name', tag.name);
         }
         document.head.appendChild(element);
@@ -66,19 +66,19 @@ const useMetaTags = (metadata: {
 // PORTFOLIO DATA CONFIGURATION
 // ============================================================================
 const defaultPortfolioData = {
-  name: "LADY DIANE BAUZON CASILANG",
+  name: "SHERWIN LIMOSNERO",
   course: "BS in Information Technology",
-  school: "FEU Institute of Technology",
-  about: "I am a fourth-year IT student and freelance designer who integrates technical troubleshooting with creative insight to deliver innovative, efficient solutions.",
+  school: "UPHSL",
+  about: "I am a third-year IT student and freelance designer who integrates technical troubleshooting with creative insight to deliver innovative, efficient solutions.",
   skills: [
     "Graphic Design",
     "UI / UX Design",
     "Project Management",
     "Full Stack Development",
-    "Web & App Development"
+    "Game development"
   ],
-  linkedin: "https://www.linkedin.com/in/ldcasilang/",
-  github: "https://github.com/ldcasilang",
+  linkedin: "https://www.linkedin.com/in/sherwinlimosnero/",
+  github: "https://github.com/owenlim225",
 }
 
 // Network configuration
@@ -99,10 +99,11 @@ const PortfolioView = () => {
   // ==========================================================================
   // STATE MANAGEMENT
   // ==========================================================================
-  const objectId = MAINNET_PORTFOLIO_ID;
   
   // Network state - default to testnet, can be changed if needed
-  const [currentNetwork, setCurrentNetwork] = useState<"testnet" | "mainnet">("mainnet");
+  const [currentNetwork, setCurrentNetwork] = useState<"testnet" | "mainnet">("testnet");
+  
+  const objectId = currentNetwork === "mainnet" ? MAINNET_PORTFOLIO_ID : TESTNET_PORTFOLIO_ID;
   
   const [portfolioData, setPortfolioData] = useState(defaultPortfolioData);
   const [isLoading, setIsLoading] = useState(false);
@@ -174,8 +175,7 @@ const PortfolioView = () => {
           }
           
           if (result.result.data.content?.fields) {
-            const fields = result.result.data.content.fields;
-           
+            const fields = result.result.data.content.fields;           
             const newPortfolioData = {
               name: fields.name || defaultPortfolioData.name,
               course: fields.course || defaultPortfolioData.course,
@@ -183,7 +183,7 @@ const PortfolioView = () => {
               about: fields.about || defaultPortfolioData.about,
               linkedin: fields.linkedin_url || defaultPortfolioData.linkedin,
               github: fields.github_url || defaultPortfolioData.github,
-              skills: fields.skills ? fields.skills.split(",").map(s => s.trim()) : defaultPortfolioData.skills,
+              skills: fields.skills ? fields.skills.split(",").map((s: string) => s.trim()) : defaultPortfolioData.skills,
             };
             
             setPortfolioData(newPortfolioData);
